@@ -15,11 +15,19 @@ function Bit#(1) not1(Bit#(1) a);
 endfunction
 
 function Bit#(1) multiplexer1(Bit#(1) sel, Bit#(1) a, Bit#(1) b);
-    return (sel == 0)? a : b;
+    let sel_not = not1(sel);
+    let out_and_0 = and1(a, sel_not);
+    let out_and_1 = and1(b, sel);
+    let out = or1(out_and_0, out_and_1);
+    return out;
 endfunction
 
 function Bit#(5) multiplexer5(Bit#(1) sel, Bit#(5) a, Bit#(5) b);
-    return (sel == 0)? a : b;
+    Bit#(5) out;
+    for (Integer i = 0; i < 5; i = i + 1) begin
+        out[i] = multiplexer1(sel, a[i], b[i]);
+    end
+    return out;
 endfunction
 
 typedef 5 N;
