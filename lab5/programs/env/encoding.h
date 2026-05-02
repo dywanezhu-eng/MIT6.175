@@ -3,6 +3,15 @@
 #ifndef RISCV_CSR_ENCODING_H
 #define RISCV_CSR_ENCODING_H
 
+#define STR1(x) #x
+#define STR(x) STR1(x)
+
+#ifdef __ASSEMBLER__
+#define DECLARE_CSR(name, addr) .set name, addr
+#else
+#define DECLARE_CSR(name, addr) asm(".set " #name ", " STR(addr));
+#endif
+
 #define MSTATUS_IE          0x00000001
 #define MSTATUS_PRV         0x00000006
 #define MSTATUS_IE1         0x00000008

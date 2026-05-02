@@ -20,6 +20,7 @@ CONNECTALFLAGS += -D $(VPROC)
 CONNECTALFLAGS += --bscflags " -D $(VPROC) -steps-max-intervals 50 +RTS -K256M -RTS"
 CONNECTALFLAGS += --bscflags " -show-schedule"
 #CONNECTALFLAGS += --cxxflags="-g -std=gnu++11"
+CONNECTALFLAGS += --cxxflags="-Wno-error=address -Wno-address" #关闭 GCC 对数组地址的严格检查
 
 include $(CONNECTALDIR)/Makefile.connectal
 

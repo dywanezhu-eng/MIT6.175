@@ -17,7 +17,7 @@ module mkIMemory(IMemory);
    // MemInitIfc memInit <- mkMemInitRegFile(mem);
 
     method MemResp req(Addr a) if (memInit.done());
-        return mem.sub(truncate(a>>2));
+        return mem.sub(truncate(a-32'h200>>2));
     endmethod
 
     interface MemInitIfc init = memInit;

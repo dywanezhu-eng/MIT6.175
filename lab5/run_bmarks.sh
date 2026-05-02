@@ -1,22 +1,26 @@
 #!/bin/bash
 
 asm_tests=(
-	median
-	multiply
+	# median
+	# multiply
 	qsort
 	towers
 	vvadd
 	)
 
 vmh_dir=programs/build/benchmarks/vmh
-log_dir=logs
+log_dir=logs-bmarks
 wait_time=3
 
 # create bsim log dir
 mkdir -p ${log_dir}
 
+# kill previous bsim if any
+pkill bluetcl
+
 # run each test
 for test_name in ${asm_tests[@]}; do
+	prefix=$(printf "%02d" $count)
 	echo "-- benchmark test: ${test_name} --"
 	# copy vmh file
 	mem_file=${vmh_dir}/${test_name}.riscv.vmh
@@ -27,6 +31,8 @@ for test_name in ${asm_tests[@]}; do
 	cp ${mem_file} bluesim/mem.vmh 
 
 	# run test
-	make run.bluesim > ${log_dir}/${test_name}.log & # run bsim, redirect outputs to log
-	sleep ${wait_time} # wait for bsim to setup
+	make run.bluesim > ${log_dir}/${prefix}_${test_name}.log # run bsim, redirect outputs to log
+	# sleep ${wait_time} # wait for bsim to setup
+	count=$((count + 1))
+	echo ""
 done
