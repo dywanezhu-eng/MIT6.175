@@ -1,8 +1,8 @@
 #!/bin/bash
 
 asm_tests=(
-	# median
-	# multiply
+	median
+	multiply
 	qsort
 	towers
 	vvadd

@@ -80,7 +80,7 @@ bmarks_cycles = 80000
 
 $(bmarks_riscv_vmh): %.riscv.vmh: %.riscv
 	@echo $(basename $<)
-	@echo "@0" > $(bmarks_build_vmh_dir)/temp
+	@echo "@40" > $(bmarks_build_vmh_dir)/temp
 	$(RISCV_ELF2HEX) --bit-width $(VMH_WIDTH) --input $(bmarks_build_bin_dir)/$< >> $(bmarks_build_vmh_dir)/temp
 	python3 $(bmarkdir)/../trans_vmh.py $(bmarks_build_vmh_dir)/temp $(bmarks_build_vmh_dir)/$@
 
