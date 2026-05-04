@@ -31,8 +31,8 @@ module mkProc(Proc);
 
     //state Reg 
     Reg#(Stage) state <- mkReg(Fetch);
-    //f2d Reg
-    Reg#(Data)  f2d <- mkRegU;
+    //d2e Reg
+    Reg#(DecodedInst)  dInst <- mkRegU;
 
     Bool memReady = mem.init.done && dummyInit.done;
 
@@ -53,13 +53,12 @@ module mkProc(Proc);
         $display("pc: %h inst: (%h) expanded: ", pc, inst, showInst(inst));
 	$fflush(stdout);
 
-        f2d <= inst;
+        DecodedInst dInst_noReg = decode(inst);
+        dInst <= dInst_noReg;
         state <= Execute;
     endrule
 
     rule execute (csrf.started && state == Execute);
-        DecodedInst dInst = decode(f2d);
-
         // read general purpose register values 
         Data rVal1 = rf.rd1(fromMaybe(?, dInst.src1));
         Data rVal2 = rf.rd2(fromMaybe(?, dInst.src2));
